@@ -1,8 +1,14 @@
-﻿<fieldset>
-    <DxRadioGroup Items="@ValueListItems"
-                  @bind-Value="@PreferredValue"
-                  Layout="@Layout"
-                  CssClass="dx-demo-radio-group"/>
+﻿<fieldset >
+    <div class="d-flex justify-content-between w-100">
+        @foreach (var (item, i) in ValueListItemsWithState)
+        {
+            <DxButton RenderStyle="@i.RenderStyle"
+                      CssClass="w-50 h-25 mx-2"
+                      Click="() => ToggleRenderStyle(i)"
+                      Text=@($"{item}")>
+            </DxButton>
+        }
+    </div>
                   
 </fieldset>
 
@@ -10,12 +16,14 @@
 
 
     [Parameter] public List<ValueList> ValueListInfo { get; set; }
-    public List<string> ValueListItems;
+    public IEnumerable<string> ValueListItems;
+    private List<(string Value, ButtonState State)> ValueListItemsWithState;
+
 
     protected override async Task OnInitializedAsync()
     {
         ValueListItems = ValueListInfo[0].ValueListItems.Select(x=>x.DisplayText).ToList();
-
+        ValueListItemsWithState = ValueListItems.Select(v => (v, new ButtonState())).ToList();
     }
     string PreferredValue { get; set; } = "1";
     RadioGroupLayout Layout { get; set; }
@@ -25,6 +33,18 @@
         if (sizeMode != SizeMode.Medium)
             result += sizeMode == SizeMode.Large ? " dx-demo-large" : " dx-demo-small";
         return result;
+    }
+    private void ToggleRenderStyle(ButtonState state)
+    {
+        foreach (var item in ValueListItemsWithState)
+        {
+            item.State.RenderStyle = ButtonRenderStyle.Secondary;
+        }
+        state.RenderStyle = ButtonRenderStyle.Info;
+    }
+    private class ButtonState
+    {
+        public ButtonRenderStyle RenderStyle { get; set; } = ButtonRenderStyle.Secondary;
     }
 
 

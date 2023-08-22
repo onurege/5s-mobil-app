@@ -1,7 +1,7 @@
 ﻿using DevExpress.Blazor;
 using MauiApp4.Data;
 using Microsoft.Extensions.Logging;
-
+using Syncfusion.Blazor;
 namespace MauiApp4
 {
     public static class MauiProgram
@@ -25,7 +25,8 @@ namespace MauiApp4
             builder.Services.AddDevExpressBlazor(configure => configure.BootstrapVersion = BootstrapVersion.v5);
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddSingleton<QuestionList>();
-
+            builder.Services.AddSyncfusionBlazor();
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NGaF1cVGhAYVF3WmFZfV1gc19FYVZTRGYuP1ZhSXxQdk1hW39Zc3ZURmBdUEY=");
             return builder.Build();
         }
     }
