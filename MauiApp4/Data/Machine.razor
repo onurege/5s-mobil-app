@@ -1,0 +1,41 @@
+﻿<DxComboBox Data="@Items"
+@bind-Text="@SelectedMachine"
+@bind-Value="@SelectedMachine"
+            CssClass="cw-480" />
+
+
+
+
+
+@code {
+    string SelectedMachine { get; set; }
+
+
+
+
+
+    List<Question> DataSource;
+    IEnumerable<string> Items;
+    List<Group> GroupItems;
+    protected override async Task OnInitializedAsync()
+    {
+        //headerın groupları
+        GroupItems = Pages.Helper.ConvertJsonFileToObjects("HEADER");
+        DataSource = GroupItems.Where(g => g.QuestionGroupCode == "5S_HAT_HEADER").SelectMany(g => g.Questions).ToList();
+        Items = DataSource.Where(q => q.QuestionName == "Makine")
+        .SelectMany(q => q.ValueList)
+        .ToList().First().ValueListItems
+        .ToList().Select(v => v.DisplayText)
+        .ToList();
+
+
+
+        SelectedMachine = Items.FirstOrDefault();
+
+
+
+    }
+
+
+
+}

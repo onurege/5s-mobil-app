@@ -1,0 +1,17 @@
+﻿<DxTextBox @bind-Text="@TextValue"
+           BindValueMode="@BindValueMode"
+           InputDelay="@InputDelay"
+           NullText="Açıklama..."
+           CssClass="cw-320" />
+<p class="demo-text cw-320 mt-2">
+    <br />
+</p>
+
+ 
+
+@code {
+    string TextValue { get; set; } = null;
+    int? InputDelay { get; set; } = 500;
+    BindValueMode BindValueMode { get; set; } = BindValueMode.OnInput;
+    bool BindDelayEnabled { get { return BindValueMode == BindValueMode.OnDelayedInput; } }
+}
