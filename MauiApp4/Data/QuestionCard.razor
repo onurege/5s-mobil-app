@@ -1,0 +1,31 @@
+﻿<fieldset>
+    <DxRadioGroup Items="@ValueListItems"
+                  @bind-Value="@PreferredValue"
+                  Layout="@Layout"
+                  CssClass="dx-demo-radio-group"/>
+                  
+</fieldset>
+
+@code {
+
+
+    [Parameter] public List<ValueList> ValueListInfo { get; set; }
+    public List<string> ValueListItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ValueListItems = ValueListInfo[0].ValueListItems.Select(x=>x.DisplayText).ToList();
+
+    }
+    string PreferredValue { get; set; } = "1";
+    RadioGroupLayout Layout { get; set; }
+    string GetLegendCssClass(SizeMode sizeMode)
+    {
+        var result = "dx-demo-radio-group-label";
+        if (sizeMode != SizeMode.Medium)
+            result += sizeMode == SizeMode.Large ? " dx-demo-large" : " dx-demo-small";
+        return result;
+    }
+
+
+}

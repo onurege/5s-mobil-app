@@ -1,0 +1,12 @@
+﻿
+<DxDateEdit @bind-Date="@DateTimeValue"
+            TimeSectionVisible="true"
+            CssClass="cw-320" />
+<p class="demo-text cw-320 mt-2">
+            <br />
+    
+</p>
+
+@code {
+    DateTime DateTimeValue { get; set; } = DateTime.Now;
+}

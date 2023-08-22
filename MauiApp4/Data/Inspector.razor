@@ -1,0 +1,35 @@
+﻿<DxComboBox Data="@Items"
+@bind-Text="@SelectedInspector"
+@bind-Value="@SelectedInspector"
+            CssClass="cw-480" />
+
+
+@code {
+    IEnumerable<string> Data { get; set; }
+    string SelectedInspector { get; set; }
+
+
+    string jsonContent;
+    QuestionList questionList = new();
+    List<Group> BodySectionGroups = new();
+    List<Question> DataSource;
+    IEnumerable<string> Items;
+    List<Group> GroupItems;
+    string filePath;
+    AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
+    AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
+    protected override async Task OnInitializedAsync()
+    {
+        //headerın groupları
+        GroupItems = Pages.Helper.ConvertJsonFileToObjects("HEADER");
+        DataSource=GroupItems.Where(g => g.QuestionGroupCode == "5S_HAT_HEADER").SelectMany(g => g.Questions).ToList();
+        Items = DataSource.Where(q => q.QuestionName == "Denetleyen")
+        .SelectMany(q => q.ValueList)
+        .ToList().First().ValueListItems
+        .ToList().Select(v=>v.DisplayText)
+        .ToList();
+
+        SelectedInspector = Items.FirstOrDefault();
+    }
+
+}

@@ -1,0 +1,51 @@
+﻿@page "/"
+@using MauiApp4.Data;
+@using Newtonsoft.Json;
+<div class="cw-480 demo-preventsel">
+    <DxAccordion ExpandMode="ExpandMode"
+                 ExpandCollapseAction="ExpandCollapseAction"
+                 AnimationType="LayoutAnimationType.Slide">
+        <Items>
+            @foreach(var (group, i) in GroupItems) {
+                <DxAccordionItem Text=@($"{group.QuestionGroupName} ") Expanded=@(i == 0)>
+                    <ContentTemplate>
+                        <div class="py-3 px-3">
+                            <GroupCard QuestionsInfo="@group.Questions"/>
+                        </div>
+                    </ContentTemplate>
+                </DxAccordionItem>
+            }
+        </Items>
+    </DxAccordion>
+</div>
+
+@code {
+
+    string jsonContent;
+    QuestionList questionList = new();
+    List<Group> BodySectionGroups = new();
+    IEnumerable<Question> DataSource;
+    IEnumerable<(Question, int)> Items;
+    IEnumerable<(Group, int)> GroupItems;
+    string filePath;
+    AccordionExpandMode ExpandMode { get; set; } = AccordionExpandMode.SingleOrNone;
+    AccordionExpandCollapseAction ExpandCollapseAction { get; set; } = AccordionExpandCollapseAction.HeaderClick;
+    protected override async Task OnInitializedAsync() {
+
+        
+        Items = BodySectionGroups.SelectMany(g => g.Questions).ToList().Select((item, index) => (item, index));
+        GroupItems = Helper.ConvertJsonFileToObjects("BODY").Select((item, index) => (item, index));
+        await base.OnInitializedAsync();
+    }
+
+
+
+
+
+
+
+
+
+
+
+}
